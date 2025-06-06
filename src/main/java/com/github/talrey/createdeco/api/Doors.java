@@ -34,7 +34,8 @@ import java.util.function.Supplier;
 
 public class Doors {
   public static final BlockSetType OPEN_METAL_DOOR = new BlockSetType(
-    "metal", true, SoundType.METAL,
+    "metal", true, false, false,
+    BlockSetType.PressurePlateSensitivity.EVERYTHING, SoundType.METAL,
     SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
     SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
     SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
@@ -62,7 +63,7 @@ public class Doors {
       + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       + "_door";
 
-    return reg.block(regName, p -> new DoorBlock(p, locked ? BlockSetType.GOLD : OPEN_METAL_DOOR))
+    return reg.block(regName, p -> new DoorBlock(locked ? BlockSetType.GOLD : OPEN_METAL_DOOR, p))
       .initialProperties(()-> Blocks.IRON_DOOR)
       .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
@@ -106,9 +107,9 @@ public class Doors {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       + "_trapdoor";
     String path = "block/palettes/doors/" + regName ;
-    ResourceLocation texture = new ResourceLocation(CreateDecoMod.MOD_ID, path);
+    ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(CreateDecoMod.MOD_ID, path);
 
-    return reg.block(regName, p->new TrapDoorBlock(p, OPEN_METAL_DOOR))
+    return reg.block(regName, p -> new TrapDoorBlock(OPEN_METAL_DOOR, p))
       .properties(props -> props.noOcclusion().strength(5, 5)
         .requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)

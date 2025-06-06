@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import com.simibubi.create.foundation.placement.PoleHelper;
 import net.createmod.catnip.placement.IPlacementHelper;
@@ -10,6 +11,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -34,6 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.Predicate;
 
 public class SupportBlock extends DirectionalBlock implements ProperWaterloggedBlock {
+  public static final MapCodec<SupportBlock> CODEC = simpleCodec(SupportBlock::new);
   private static final VoxelShape NORTH = Block.box(
     0d, 0d, 0d,
     16d, 16d, 2d
@@ -62,7 +65,7 @@ public class SupportBlock extends DirectionalBlock implements ProperWaterloggedB
   private static final VoxelShape Y = Shapes.join(UP,    DOWN,  BooleanOp.OR);
   private static final VoxelShape Z = Shapes.join(NORTH, SOUTH, BooleanOp.OR);
 
-  private static final int placementHelperId = PlacementHelpers.register(new SupportBlock.PlacementHelper());
+  private static final int placementHelperId = PlacementHelpers.register(new PlacementHelper());
 
   public SupportBlock (Properties props) {
     super(props);
@@ -71,23 +74,25 @@ public class SupportBlock extends DirectionalBlock implements ProperWaterloggedB
   }
 
   @Override
+  protected MapCodec<? extends DirectionalBlock> codec() {
+    return CODEC;
+  }
+
+  @Override
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
     builder.add(BlockStateProperties.WATERLOGGED, FACING);
   }
 
   @Override
-  public InteractionResult use(
-    BlockState state, Level world, BlockPos pos, Player player,
-    InteractionHand hand, BlockHitResult ray
-  ) {
+  public ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
     ItemStack heldItem = player.getItemInHand(hand);
 
     IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
     if (!placementHelper.matchesItem(heldItem))
-      return InteractionResult.PASS;
+      return ItemInteractionResult.FAIL;
 
-    return placementHelper.getOffset(player, world, state, pos, ray)
-      .placeInWorld(world, ((BlockItem) heldItem.getItem()), player, hand, ray);
+    return placementHelper.getOffset(player, level, state, pos, hitResult)
+      .placeInWorld(level, ((BlockItem) heldItem.getItem()), player, hand, hitResult);
   }
 
   @Nullable
@@ -101,7 +106,7 @@ public class SupportBlock extends DirectionalBlock implements ProperWaterloggedB
   }
 
   @Override
-  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+  public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
     return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
   }
 

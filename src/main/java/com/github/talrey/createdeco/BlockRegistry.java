@@ -4,7 +4,6 @@ import com.github.talrey.createdeco.api.*;
 import com.github.talrey.createdeco.blocks.*;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
@@ -154,7 +153,7 @@ public class BlockRegistry {
 
 
 	private static void registerCageLamps (String metal, Function<String, Item> getter) {
-		ResourceLocation cage = new ResourceLocation(CreateDecoMod.MOD_ID,
+		ResourceLocation cage = ResourceLocation.fromNamespaceAndPath(CreateDecoMod.MOD_ID,
 				"block/palettes/cage_lamp/"
 						+ metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp"
 		);
@@ -321,17 +320,17 @@ public class BlockRegistry {
 						Placards.recipeDyeing(color, ctx, prov);
 					})
 					.onRegisterAfter(Registries.ITEM, placard -> {
-						// none of this works. TODO ask about tooltips
-						TooltipModifier original = TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem());
-						if (original == null) {
-							CreateDecoMod.LOGGER.info("placard tooltip was null"); // why is it null?
-						} else if (original.equals(TooltipModifier.EMPTY)) {
-							CreateDecoMod.LOGGER.info("placard tooltip was empty");
-						}
-						//TODO - this fully crashes on Create 6.0
-//						TooltipModifier.REGISTRY.register(placard.asItem(),
-//								TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
-//						);
+//						// none of this works. TODO ask about tooltips
+//						TooltipModifier original = TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem());
+//						if (original == null) {
+//							CreateDecoMod.LOGGER.info("placard tooltip was null"); // why is it null?
+//						} else if (original.equals(TooltipModifier.EMPTY)) {
+//							CreateDecoMod.LOGGER.info("placard tooltip was empty");
+//						}
+//						//TODO - this fully crashes on Create 6.0
+						TooltipModifier.REGISTRY.register(placard.asItem(),
+								TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
+						);
 					})
 					.register());
 		}
@@ -353,9 +352,9 @@ public class BlockRegistry {
 	private static void registerCoins (String metal, Function<String, Item> getter) {
 		if (metal.equals("Andesite")) return;
 		String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-		ResourceLocation side   = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_side");
-		ResourceLocation top    = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_top");
-		ResourceLocation bottom = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_bottom");
+		ResourceLocation side   = ResourceLocation.fromNamespaceAndPath(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_side");
+		ResourceLocation top    = ResourceLocation.fromNamespaceAndPath(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_top");
+		ResourceLocation bottom = ResourceLocation.fromNamespaceAndPath(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_bottom");
 
 		COIN_BLOCKS.put(metal, Coins.buildCoinStackBlock(
 				CreateDecoMod.REGISTRATE,

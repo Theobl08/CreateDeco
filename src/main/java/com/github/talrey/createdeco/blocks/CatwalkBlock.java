@@ -37,6 +37,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Map;
@@ -264,7 +266,7 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   }
 
   @Override
-  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+  public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
     return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
   }
 
@@ -328,7 +330,7 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return hasAnyRailings;
   }
 
-  public static boolean isEmpty(BlockState state) {
+  public boolean isEmpty(BlockState state) {
     boolean hasAnyElement = false;
 
     hasAnyElement |= hasAnyCatwalks(state);

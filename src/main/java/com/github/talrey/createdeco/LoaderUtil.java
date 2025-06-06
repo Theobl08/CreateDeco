@@ -1,21 +1,22 @@
 package com.github.talrey.createdeco;
 
 import com.simibubi.create.foundation.block.IBE;
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.simibubi.create.foundation.item.ItemHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class LoaderUtil {
-  @ExpectPlatform
-  public static int getSignal (IBE<?> be, BlockState pState, Level pLevel, BlockPos pPos) {
-    throw new AssertionError();
-  }
+//  public static int getSignal (IBE<?> be, BlockState pState, Level pLevel, BlockPos pPos) {
+//    return be.getBlockEntityOptional(pLevel, pPos).map((vte) ->
+//            vte.getCapability(Capabilities.ITEM_HANDLER)
+//    ).map((lo) ->
+//            lo.map(ItemHelper::calcRedstoneFromInventory).orElse(0)
+//    ).orElse(0);
+//  }
 
-  // this check is only done in Fabric's implementation, forge doesn't seem to need it
-  @ExpectPlatform
   public static boolean checkPlacingNbt (BlockPlaceContext ctx) {
-    throw new AssertionError();
+    return true;
   }
 }

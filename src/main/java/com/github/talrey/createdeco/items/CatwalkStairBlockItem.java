@@ -26,7 +26,7 @@ public class CatwalkStairBlockItem extends BlockItem {
 
   public CatwalkStairBlockItem (CatwalkStairBlock block, Properties props) {
     super(block, props);
-    placementHelperID = PlacementHelpers.register(new CatwalkStairBlockItem.CatwalkHelper());
+    placementHelperID = PlacementHelpers.register(new CatwalkHelper());
   }
 
   @Override
@@ -41,7 +41,7 @@ public class CatwalkStairBlockItem extends BlockItem {
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
     if (helper.matchesState(state) && player != null && !player.isShiftKeyDown()) {
       return helper.getOffset(player, world, state, pos, ray)
-        .placeInWorld(world, this, player, ctx.getHand(), ray);
+        .placeInWorld(world, this, player, ctx.getHand(), ray).result();
     }
     return super.useOn(ctx);
   }

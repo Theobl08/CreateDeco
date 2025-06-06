@@ -35,7 +35,7 @@ public class CatwalkBlockItem extends BlockItem {
   }
 
   @Override
-  public InteractionResult useOn (UseOnContext ctx) {
+  public InteractionResult useOn(UseOnContext ctx) {
     BlockPos pos   = ctx.getClickedPos();
     Direction face = ctx.getClickedFace();
     Level world    = ctx.getLevel();
@@ -47,7 +47,7 @@ public class CatwalkBlockItem extends BlockItem {
     IPlacementHelper replacement_helper = PlacementHelpers.get(catwalkReplacementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
     if (extension_helper.matchesState(state) && player != null) {
-      return extension_helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
+      return extension_helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray).result();
     } else if (placement_helper.matchesState(state) && player != null) {
       // This offset is only used to produce the ghost state, we don't use
       // it to actually place the block.
@@ -70,7 +70,7 @@ public class CatwalkBlockItem extends BlockItem {
         // we briefly replace the block with air, and then replace it with the
         // catwalk block.
         world.setBlock(pos, Blocks.AIR.defaultBlockState(), 0);
-        return offset.placeInWorld(world, this, player, ctx.getHand(), ray);
+        return offset.placeInWorld(world, this, player, ctx.getHand(), ray).result();
       }
     }
     return super.useOn(ctx);

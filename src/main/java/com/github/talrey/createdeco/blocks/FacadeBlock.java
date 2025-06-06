@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
 public class FacadeBlock extends MultifaceBlock implements IWrenchable, SimpleWaterloggedBlock {
+  public static final MapCodec<FacadeBlock> CODEC = simpleCodec(FacadeBlock::new);
+
   private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
   private final MultifaceSpreader spreader = new MultifaceSpreader(this);
 
@@ -60,5 +63,10 @@ public class FacadeBlock extends MultifaceBlock implements IWrenchable, SimpleWa
   @Override
   public boolean isValidStateForPlacement(BlockGetter level, BlockState state, BlockPos pos, Direction direction) {
     return true;
+  }
+
+  @Override
+  protected MapCodec<? extends MultifaceBlock> codec() {
+    return CODEC;
   }
 }

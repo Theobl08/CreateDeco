@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -13,6 +14,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class DecalBlock extends FaceAttachedHorizontalDirectionalBlock implements IWrenchable {
+  public static final MapCodec<DecalBlock> CODEC = simpleCodec(DecalBlock::new);
+
   protected static final VoxelShape CEILING_AABB;
   protected static final VoxelShape FLOOR_AABB;
   protected static final VoxelShape NORTH_AABB;
@@ -50,5 +53,10 @@ public class DecalBlock extends FaceAttachedHorizontalDirectionalBlock implement
     SOUTH_AABB = Block.box(2.0D, 2.0D, 0.0D, 14.0D, 14.0D, 2.0D);
     WEST_AABB = Block.box(14.0D, 2.0D, 2.0D, 16.0D, 14.0D, 14.0D);
     EAST_AABB = Block.box(0.0D, 2.0D, 2.0D, 2.0D, 14.0D, 14.0D);
+  }
+
+  @Override
+  protected MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
+    return CODEC;
   }
 }

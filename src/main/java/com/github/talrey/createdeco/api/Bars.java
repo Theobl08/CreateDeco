@@ -35,12 +35,12 @@ public class Bars {
     final ResourceLocation bartex, postex;
     //try {
     if (metal.equals("Iron")) {
-      barTexture = new ResourceLocation("minecraft", "block/iron_bars");
+      barTexture = ResourceLocation.fromNamespaceAndPath("minecraft", "block/iron_bars");
       postTexture = barTexture;
     }
     else {
-      barTexture = new ResourceLocation(reg.getModid(), "block/palettes/metal_bars/" + base);
-      postTexture = new ResourceLocation(reg.getModid(), post);
+      barTexture = ResourceLocation.fromNamespaceAndPath(reg.getModid(), "block/palettes/metal_bars/" + base);
+      postTexture = ResourceLocation.fromNamespaceAndPath(reg.getModid(), post);
     }
 
     // for lambda stuff, must be final
@@ -49,8 +49,8 @@ public class Bars {
 
     var block = reg.block(base + suf, IronBarsBlock::new)
             .properties(props -> props.noOcclusion().strength(5, 6)
-              .requiresCorrectToolForDrops()
-              .sound(SoundType.NETHERITE_BLOCK))
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.NETHERITE_BLOCK))
             .blockstate((ctx, prov)-> BlockStateGenerator.bar(base, suf, bartex, postex, ctx, prov))
             .addLayer(()-> RenderType::cutoutMipped)
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)

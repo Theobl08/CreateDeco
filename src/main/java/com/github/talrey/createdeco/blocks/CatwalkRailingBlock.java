@@ -181,7 +181,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
   }
 
   @Override
-  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+  public boolean canPlaceLiquid(@Nullable Player player, BlockGetter level, BlockPos pos, BlockState state, Fluid fluid) {
     return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
   }
 
@@ -213,7 +213,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     };
   }
 
-  public static boolean isEmpty (BlockState state) {
+  public boolean isEmpty (BlockState state) {
     boolean safe = false;
     for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
       safe |= state.getValue(fromDirection(dir));
@@ -226,6 +226,19 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 
+  @Override
+  public ItemRequirement getRequiredItems(BlockState state, BlockEntity blockEntity) {
+    int count = 0;
+    count += state.getValue(NORTH_FENCE)? 1 : 0;
+    count += state.getValue(EAST_FENCE)? 1 : 0;
+    count += state.getValue(SOUTH_FENCE)? 1 : 0;
+    count += state.getValue(WEST_FENCE)? 1 : 0;
+
+    return new ItemRequirement(
+      ItemRequirement.ItemUseType.CONSUME,
+      new ItemStack(this.asItem(), count)
+    );
+  }
   @Override
   public BlockState rotate(BlockState state, Rotation rotation) {
     boolean north = state.getValue(NORTH_FENCE);
@@ -260,19 +273,5 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     }
     BlockState newState = defaultBlockState().setValue(NORTH_FENCE, north).setValue(SOUTH_FENCE, south).setValue(EAST_FENCE, east).setValue(WEST_FENCE, west);
     return newState;
-  }
-
-  @Override
-  public ItemRequirement getRequiredItems(BlockState state, BlockEntity blockEntity) {
-    int count = 0;
-    count += state.getValue(NORTH_FENCE)? 1 : 0;
-    count += state.getValue(EAST_FENCE)? 1 : 0;
-    count += state.getValue(SOUTH_FENCE)? 1 : 0;
-    count += state.getValue(WEST_FENCE)? 1 : 0;
-
-    return new ItemRequirement(
-      ItemRequirement.ItemUseType.CONSUME,
-      new ItemStack(this.asItem(), count)
-    );
   }
 }

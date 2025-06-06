@@ -40,7 +40,7 @@ public class ShippingContainerBlock extends ItemVaultBlock {
 
   public boolean isSameType (BlockState other) {
     return (other.getBlock() instanceof ShippingContainerBlock container)
-      && (container.COLOR == this.COLOR);
+            && (container.COLOR == this.COLOR);
   }
 
   public static boolean isVault (BlockState state) {
@@ -62,11 +62,11 @@ public class ShippingContainerBlock extends ItemVaultBlock {
 
   // Vaults are less noisy when placed in batch
   public static final SoundType SILENCED_METAL =
-    new SoundType(0.1F, 1.5F,
-      SoundEvents.NETHERITE_BLOCK_BREAK, SoundEvents.NETHERITE_BLOCK_STEP,
-      SoundEvents.NETHERITE_BLOCK_PLACE, SoundEvents.NETHERITE_BLOCK_HIT,
-      SoundEvents.NETHERITE_BLOCK_FALL
-    );
+          new SoundType(0.1F, 1.5F,
+                  SoundEvents.NETHERITE_BLOCK_BREAK, SoundEvents.NETHERITE_BLOCK_STEP,
+                  SoundEvents.NETHERITE_BLOCK_PLACE, SoundEvents.NETHERITE_BLOCK_HIT,
+                  SoundEvents.NETHERITE_BLOCK_FALL
+          );
 
 //    @Override
 //    public SoundType getSoundType(BlockState state, LevelReader world, BlockPos pos, net.minecraft.world.entity.Entity entity) {

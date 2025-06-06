@@ -263,7 +263,7 @@ public class Bricks {
       .requires(DataIngredient.items( (dye == null)
         ? Blocks.BRICKS
         : BlockRegistry.BRICKS.get(dye).get(original)
-      ))
+      ).toVanilla())
       .requires(Blocks.VINE)
       .unlockedBy("hasitem", InventoryChangeTrigger.TriggerInstance.hasItems(
         (dye == null)
@@ -276,7 +276,7 @@ public class Bricks {
         .requires(DataIngredient.items( (dye == null)
             ? Blocks.BRICKS
             : BlockRegistry.BRICKS.get(dye).get(original)
-        ))
+        ).toVanilla())
         .requires(Blocks.MOSS_BLOCK)
         .unlockedBy("hasitem", InventoryChangeTrigger.TriggerInstance.hasItems(
             (dye == null)

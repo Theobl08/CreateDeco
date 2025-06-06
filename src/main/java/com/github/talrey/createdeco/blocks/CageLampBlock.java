@@ -1,5 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
@@ -7,7 +9,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -17,6 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -29,6 +31,12 @@ import org.joml.Vector3f;
 import javax.annotation.Nullable;
 
 public class CageLampBlock extends DirectionalBlock implements ProperWaterloggedBlock, IWrenchable {
+  public static final MapCodec<CageLampBlock> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+          BlockBehaviour.propertiesCodec(),
+          DustParticleOptions.CODEC.fieldOf("particle").forGetter(block -> block.particle)
+          ).apply(instance, (p,dustParticleOptions) -> new CageLampBlock(p, dustParticleOptions.getColor()))
+  );
+
   public final DustParticleOptions particle;
 
   protected static final VoxelShape AABB_UP = Block.box(
@@ -122,7 +130,7 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   }
 
   @Override
-  public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+  public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
     BlockState next = this.toggle(state.cycle(BlockStateProperties.INVERTED), level, pos);
     if (level.isClientSide) {
       return InteractionResult.SUCCESS;
@@ -158,5 +166,10 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
       BlockStateProperties.FACING,
       WATERLOGGED
     );
+  }
+
+  @Override
+  protected MapCodec<? extends DirectionalBlock> codec() {
+    return CODEC;
   }
 }
