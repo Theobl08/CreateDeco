@@ -37,15 +37,26 @@ public class BlockStateGenerator {
                     name + "_side", prov.mcLoc("block/iron_bars_side"))
             .texture("bars", bartex)
             .texture("edge", postex)
-            .texture("particle", postex);
+            .texture("particle", bartex);
     BlockModelBuilder sideAltModel = prov.models().withExistingParent(
                     name + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
             .texture("bars", bartex)
             .texture("edge", postex)
-            .texture("particle", postex);
+            .texture("particle", bartex);
+
+    BlockModelBuilder capModel = prov.models().withExistingParent(
+                    name + "_cap", prov.mcLoc("block/iron_bars_cap"))
+            .texture("bars", postex)
+            .texture("edge", postex)
+            .texture("particle", bartex);
+    BlockModelBuilder capAltModel = prov.models().withExistingParent(
+                    name + "_cap_alt", prov.mcLoc("block/iron_bars_cap_alt"))
+            .texture("bars", postex)
+            .texture("edge", postex)
+            .texture("particle", bartex);
 
     builder.part().modelFile(prov.models().withExistingParent(name + "_post", prov.mcLoc("block/iron_bars_post"))
-                    .texture("bars", postex).texture("particle", postex)
+                    .texture("bars", postex).texture("particle", bartex)
             ).addModel()
             .condition(BlockStateProperties.NORTH, false)
             .condition(BlockStateProperties.SOUTH, false)
@@ -54,24 +65,32 @@ public class BlockStateGenerator {
             .end();
     builder.part().modelFile(
             prov.models().withExistingParent(name + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
-                    .texture("edge", postex).texture("particle", postex)
+                    .texture("edge", postex).texture("particle", bartex)
     ).addModel().end();
     builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
     builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
     builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
     builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
+    builder.part().modelFile(capModel).addModel().condition(BlockStateProperties.NORTH, true).condition(BlockStateProperties.SOUTH, false)
+            .condition(BlockStateProperties.EAST, false).condition(BlockStateProperties.WEST, false).end();
+    builder.part().modelFile(capModel).rotationY(90).addModel().condition(BlockStateProperties.NORTH, false).condition(BlockStateProperties.SOUTH, false)
+            .condition(BlockStateProperties.EAST, true).condition(BlockStateProperties.WEST, false).end();
+    builder.part().modelFile(capAltModel).addModel().condition(BlockStateProperties.NORTH, false).condition(BlockStateProperties.SOUTH, true)
+            .condition(BlockStateProperties.EAST, false).condition(BlockStateProperties.WEST, false).end();
+    builder.part().modelFile(capAltModel).rotationY(90).addModel().condition(BlockStateProperties.NORTH, false).condition(BlockStateProperties.SOUTH, false)
+            .condition(BlockStateProperties.EAST, false).condition(BlockStateProperties.WEST, true).end();
 
     if (!suf.equals("")) {
       BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
                       name + suf, prov.mcLoc("block/iron_bars_side"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + name + suf))
               .texture("edge", postex)
-              .texture("particle", postex);
+              .texture("particle", bartex);
       BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
                       name + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + name + suf))
               .texture("edge", postex)
-              .texture("particle", postex);
+              .texture("particle", bartex);
 
       builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
       builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
