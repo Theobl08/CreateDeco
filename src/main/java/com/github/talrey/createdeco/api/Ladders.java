@@ -38,6 +38,7 @@ public class Ladders {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .lang(metal + " Ladder")
         .item()
+        .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .model((ctx, prov) -> prov.blockSprite(ctx::get, prov.modLoc("block/palettes/ladders/ladder_" + regName)))
         //.model((c, p) -> p.blockSprite(c::get, p.modLoc("block/ladder_" + regName)))
         .build();

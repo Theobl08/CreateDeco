@@ -30,6 +30,7 @@ public class SheetMetal {
             .sound(SoundType.NETHERITE_BLOCK)
         )
         .item()
+        .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .build()
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> BlockStateGenerator.sheetMetal(metal, ctx, prov))

@@ -154,7 +154,9 @@ public class Catwalks {
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkStair(texture, ctx, prov))
-      .item(CatwalkStairBlockItem::new).build();
+      .item(CatwalkStairBlockItem::new)
+      .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+      .build();
   }
 
   public static BlockBuilder<CatwalkRailingBlock,?> buildRailing (
@@ -192,6 +194,7 @@ public class Catwalks {
         table.add(block, builder.withPool(pool));
       })
       .item(RailingBlockItem::new)
+      .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .build();
   }
 

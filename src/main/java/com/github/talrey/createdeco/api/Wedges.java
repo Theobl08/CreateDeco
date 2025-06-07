@@ -33,6 +33,7 @@ public class Wedges {
       )
       .addLayer(() -> RenderType::translucent)
       .item()
+      .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .blockstate((ctx, prov) -> BlockStateGenerator.supportWedge(reg, metal, ctx, prov))

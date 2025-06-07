@@ -42,6 +42,8 @@ public class ItemRegistry {
     METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Industrial Iron", (str) -> INDUSTRIAL_IRON_INGOT.get());
+    METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
+    METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
     COIN_METALS.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
     COIN_METALS.put("Copper", (str) -> Items.COPPER_INGOT);

@@ -82,14 +82,16 @@ public class CageLamps {
   }
 
   public static BlockBuilder<CageLampBlock, ?> build (
-    CreateRegistrate reg, String name, DyeColor color, ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff
+    CreateRegistrate reg, String metal, DyeColor color, ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff
   ) {
-    return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
+    return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
         (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
       .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
       .blockstate((ctx,prov)-> BlockStateGenerator.cageLamp(cage, lampOn, lampOff, ctx, prov))
       .addLayer(()-> RenderType::cutoutMipped)
-      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " " + name + " Cage Lamp")
-      .simpleItem();
+      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " " + metal + " Cage Lamp")
+      .item()
+      .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+      .build();
   }
 }
