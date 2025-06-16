@@ -570,6 +570,15 @@ public class BlockStateGenerator {
 
   }
 
+  public static void facadeItem(
+          String metal1,
+          DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    var metal = metal1.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    ResourceLocation catwalkTexture = prov.modLoc("block/palettes/catwalks/" + metal + "_catwalk");
+    prov.singleTexture(metal + "_facade", prov.mcLoc("item/generated"), "layer0", catwalkTexture);
+  }
+
   public static void supportWedge(
           CreateRegistrate reg, String metal,
           DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov

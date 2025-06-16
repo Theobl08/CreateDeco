@@ -26,6 +26,7 @@ public class Facades {
       )
       .addLayer(() -> RenderType::translucent)
       .item()
+      .model((ctx, prov)-> BlockStateGenerator.facadeItem(metal, ctx, prov))
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
