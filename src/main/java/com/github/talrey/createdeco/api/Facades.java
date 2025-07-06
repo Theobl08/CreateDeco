@@ -2,6 +2,8 @@ package com.github.talrey.createdeco.api;
 
 import com.github.talrey.createdeco.BlockStateGenerator;
 import com.github.talrey.createdeco.blocks.FacadeBlock;
+import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
+import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import net.minecraft.client.renderer.RenderType;
@@ -31,6 +33,9 @@ public class Facades {
       .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .blockstate((ctx, prov) -> BlockStateGenerator.facade(reg, metal, ctx, prov))
-      .lang(metal + " Facade");
+      .lang(metal + " Facade")
+      .onRegister(CreateRegistrate.connectedTextures(
+              new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
+      ));
   }
 }
